@@ -9,6 +9,12 @@ log ()
     echo "[$(date +'%F %T.%6N')]: $*"
 }
 
+exit1 ()
+{
+    log "RabbitMQ installation aborted."
+    exit 1
+}
+
 install_package ()
 {
     local package="$1"
@@ -33,6 +39,7 @@ install_package ()
         else
             echo ""
             log "Unable to install package ${package} !"
+			exit1
             break
         fi
     done
