@@ -2,6 +2,19 @@
 echo "Start to install"
 echo "This is a test for extension"
 date
+echo "cloud-init status: "
+cloud-init status
+
+echo "Waitting for cloud-init completes "
+# Block until cloud-init completes
+cloud-init status --wait  > /dev/null 2>&1
+[ $? -ne 0 ] && echo 'Cloud-init failed' && exit 1
+
+echo 'Cloud-init succeeded at ' `date -R`
+echo "cloud-init status: "
+cloud-init status
+
+
 echo 'deb https://packages.erlang-solutions.com/ubuntu trusty contrib' |  sudo tee  /etc/apt/sources.list.d/rabbitmq.list
 echo 'deb http://www.rabbitmq.com/debian/ testing main' |  sudo tee -a /etc/apt/sources.list.d/rabbitmq.list
 
