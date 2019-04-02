@@ -1,17 +1,26 @@
 #!/bin/bash
-echo "Start to install"
-echo "This is a test for extension"
+
+log ()
+{
+    echo "[$(date +'%F %T.%6N')]: $*"
+}
+
+log "Start to install"
+log "This is a test for extension"
 date
-echo "cloud-init status: "
+
+log "cloud-init status: "
 cloud-init status
 
-echo "Waitting for cloud-init completes "
+log "Waitting for cloud-init completes "
 # Block until cloud-init completes
 cloud-init status --wait  > /dev/null 2>&1
 [ $? -ne 0 ] && echo 'Cloud-init failed' && exit 1
 
-echo 'Cloud-init succeeded at ' `date -R`
-echo "cloud-init status: "
+log 'Cloud-init succeeded'
+
+
+log "cloud-init status: "
 cloud-init status
 
 
@@ -28,3 +37,5 @@ echo 'y' | sudo apt-get install jq
 echo 'y' | sudo apt-get install -f
 date
 echo "End od install"
+
+
