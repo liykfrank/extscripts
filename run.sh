@@ -11,15 +11,16 @@ date
 
 log "cloud-init status: "
 cloud-init status
-
-log "Waitting for cloud-init completes "
-# Block until cloud-init completes
-cloud-init status --wait  > /dev/null 2>&1
-[ $? -ne 0 ] && echo 'Cloud-init failed' && exit 1
-
-log 'Cloud-init succeeded'
-
-
+status=`cloud-init status`
+if [[ $status == *"done"* ]]; then
+    echo "cloud-init completed, start to install rabbitMQ"
+else
+    log "Waitting for cloud-init completes "
+    # Block until cloud-init completes
+    cloud-init status --wait  > /dev/null 2>&1
+    [ $? -ne 0 ] && echo 'Cloud-init failed' && exit 1
+	log 'Cloud-init succeeded'
+fi
 log "cloud-init status: "
 cloud-init status
 
